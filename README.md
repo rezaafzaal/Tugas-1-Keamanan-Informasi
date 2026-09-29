@@ -62,8 +62,16 @@ $env:KI_KEY="rahasia"; python chat.py client 20.2.91.159
 
 Port 5000 harus dibuka di firewall server (misalnya NSG di Azure).
 
+<img width="664" height="120" alt="image" src="https://github.com/user-attachments/assets/347346a8-0b8b-44ce-8bc3-45cb78e03c3d" />
+
+<img width="727" height="135" alt="image" src="https://github.com/user-attachments/assets/5e3f9888-9be2-4ca8-b359-4773460200ee" />
+
+
+
+
+
 ## Melihat Ciphertext di Wireshark
 
-1. Capture di interface jaringan yang dipakai, dengan filter `tcp.port == 5000`.
-2. Wireshark mengenali port 5000 sebagai protokol IPA/RSL. Nonaktifkan lewat **Analyze → Enabled Protocols → IPA** agar paket terbaca sebagai TCP biasa.
-3. Pilih paket `[PSH, ACK]`. Bagian **Data** berisi panjang pesan, IV, dan ciphertext yang sama dengan output `[ciphertext dikirim]` di terminal. Plaintext tidak terlihat di jaringan.
+Capture di interface jaringan yang dipakai, dengan filter `tcp.port == 5000`.
+
+<img width="751" height="917" alt="image" src="https://github.com/user-attachments/assets/c1fd7663-05d4-4439-908a-8a844d9c6396" />
