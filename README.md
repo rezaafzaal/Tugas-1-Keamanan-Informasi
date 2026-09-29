@@ -57,7 +57,7 @@ KI_KEY=rahasia python3 chat.py server
 
 **Client (Windows PowerShell):**
 ```powershell
-$env:KI_KEY="rahasia"; python chat.py client <IP_SERVER>
+$env:KI_KEY="rahasia"; python chat.py client 20.2.91.159
 ```
 
 Port 5000 harus dibuka di firewall server (misalnya NSG di Azure).
