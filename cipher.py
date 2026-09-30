@@ -78,28 +78,28 @@ def rotl28(x, n):
     return ((x << n) | (x >> (28 - n))) & 0xFFFFFFF
 
 def subkeys(key8: bytes):
-    k = permute(int.from_bytes(key8, "big"), PC1, 64)   # 56 bit
+    k = permute(int.from_bytes(key8, "big"), PC1, 64)   
     c, d = k >> 28, k & 0xFFFFFFF
     keys = []
     for s in SHIFTS:
         c, d = rotl28(c, s), rotl28(d, s)
-        keys.append(permute((c << 28) | d, PC2, 56))    # 48 bit
+        keys.append(permute((c << 28) | d, PC2, 56))   
     return keys
 
 def f(r, k):
-    x = permute(r, E, 32) ^ k                            # ekspansi 32 -> 48 bit
+    x = permute(r, E, 32) ^ k                          
     out = 0
     for i in range(8):
         six = (x >> (42 - 6 * i)) & 0x3F
         row = ((six >> 4) & 2) | (six & 1)
         col = (six >> 1) & 0xF
-        out = (out << 4) | SBOX[i][row][col]             # substitusi 48 -> 32 bit
+        out = (out << 4) | SBOX[i][row][col]            
     return permute(out, P, 32)
 
 def des_block(block8: bytes, keys) -> bytes:
     x = permute(int.from_bytes(block8, "big"), IP, 64)
     l, r = x >> 32, x & 0xFFFFFFFF
-    for k in keys:                                       # 16 ronde Feistel
+    for k in keys:                                      
         l, r = r, l ^ f(r, k)
     return permute((r << 32) | l, FP, 64).to_bytes(8, "big")
 
@@ -132,7 +132,7 @@ def encrypt(plaintext: bytes, key: bytes) -> bytes:
     return iv + bytes(out)
 
 def decrypt(ciphertext: bytes, key: bytes) -> bytes:
-    keys = subkeys(derive_key(key))[::-1]                # dekripsi = subkey dibalik
+    keys = subkeys(derive_key(key))[::-1]               
     prev, body = ciphertext[:BLOCK], ciphertext[BLOCK:]
     out = bytearray()
     for i in range(0, len(body), BLOCK):
