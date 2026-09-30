@@ -44,6 +44,34 @@ key `133457799BBCDFF1`, plaintext `0123456789ABCDEF` → ciphertext `85E813540F0
 - **Thread penerima** (`receiver()`) berjalan di latar belakang: menerima ciphertext, menampilkannya dalam hex, lalu mendekripsi dan menampilkan plaintext.
 - **Thread utama** membaca input user, mengenkripsinya, menampilkan ciphertext dalam hex, lalu mengirimkannya.
 
+## Alur Kejra
+
+```text
+CLIENT                                             SERVER
+------                                             ------
+"halo mok"
+   │ encode
+   ▼
+pad (+08 x 8) → P1 P2
+   │
+   ▼
+IV acak → CBC: C_i = DES_K1..K16(P_i XOR C_(i-1))
+   │
+   ▼
+[len 4B] + IV || C1 || C2 ──── TCP port 5000 ────► recv_msg (baca len, lalu 24 byte)
+                           (Wireshark: byte acak)    │
+                                                     ▼
+                                                   CBC: P_i = DES_K16..K1(C_i) XOR C_(i-1)
+                                                     │
+                                                     ▼
+                                                   unpad (buang 08 x 8)
+                                                     │
+                                                     ▼
+                                                   "halo mok"
+```
+
+Jika server membalas, alurnya sama persis, hanya arahnya dibalik: server yang mengenkripsi, client yang mendekripsi.
+
 ## Cara Menjalankan
 
 **Server (VM):**
