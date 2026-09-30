@@ -1,7 +1,3 @@
-# Chat Terenkripsi DES
-
-Aplikasi chat dua arah berbasis TCP. Setiap pesan dienkripsi dengan **DES (mode CBC)** sebelum dikirim, lalu didekripsi di sisi penerima. Algoritma DES diimplementasikan sendiri tanpa library kriptografi.
-
 ## Struktur File
 
 | File | Isi |
